@@ -20,13 +20,13 @@
     <!-- Blog Categories Well -->
 
     <?php
-    $query = "SELECT * FROM categories LIMIT 2";
+    $query = "SELECT * FROM categories LIMIT 4";
     $select_posts_categories = mysqli_query($connection, $query);
     ?>
     <div class="well">
         <h4>Blog Categories</h4>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <ul class="list-unstyled">
                     <?php
                     while ($row = mysqli_fetch_assoc($select_posts_categories)) {
@@ -36,20 +36,6 @@
                     ?>
                 </ul>
             </div>
-            <!-- /.col-lg-6 -->
-            <div class="col-lg-6">
-                <ul class="list-unstyled">
-                    <li><a href="#">Category Name</a>
-                    </li>
-                    <li><a href="#">Category Name</a>
-                    </li>
-                    <li><a href="#">Category Name</a>
-                    </li>
-                    <li><a href="#">Category Name</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.col-lg-6 -->
         </div>
         <!-- /.row -->
     </div>
