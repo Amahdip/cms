@@ -1,6 +1,6 @@
 <?php
-include "includes/admin_header.php";
-include "../includes/db.php"
+include "./includes/admin_header.php";
+
 ?>
 
 <div id="wrapper">
@@ -16,15 +16,24 @@ include "../includes/db.php"
                     </h1>
 
                     <div class="col-xs-6">
-                        <form action="">
+                        <?php
+                        add_categories();
+                        ?>
+                        <form action="" method="post">
                             <div class="form-group">
                                 <label for="cat_title">Add Category</label>
-                                <input type="text" class="form-control" name="cat_title">
+                                <input type="text" class="form-control" name="cat_title" id="cat_title">
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary" name="submit" value="Add category">
                             </div>
                         </form>
+
+                        <?php
+                        if (isset($_GET['edit'])) {
+                            $cat_id = $_GET['edit'];
+                            include "includes/update_categories.php";
+                        } ?>
                     </div>
 
                     <div class="col-xs-6">
@@ -36,18 +45,9 @@ include "../includes/db.php"
                                 </tr>
                             </thead>
                             <tbody>
-
                                 <?php
-                                $query = "SELECT * FROM categories";
-                                $select_categories = mysqli_query($connection, $query);
-                                while ($row = mysqli_fetch_assoc($select_categories)) {
-                                    $cat_id = $row['cat_id'];
-                                    $cat_title = $row['cat_title'];
-                                    echo "<tr>";
-                                    echo "<td>{$cat_id}</td>";
-                                    echo "<td>{$cat_title}</td>";
-                                    echo "</tr>";
-                                }
+                                insert_categories();
+                                delete_categories();
                                 ?>
                             </tbody>
 

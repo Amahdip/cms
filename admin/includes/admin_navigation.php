@@ -12,7 +12,7 @@
 	    </div>
 	    <!-- Top Menu Items -->
 	    <ul class="nav navbar-right top-nav">
-	        <li><a href="/">Home</a></li>
+	        <li><a href="../../index.php">Home</a></li>
 	        <li class="dropdown">
 	            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b
 	                    class="caret"></b></a>
@@ -21,7 +21,7 @@
 	                    <a href="#">
 	                        <div class="media">
 	                            <span class="pull-left">
-	                                <img class="media-object" src="http://placehold.it/50x50" alt="" />
+	                                <img class="media-object" src="http://placehold.co/50x50" alt="" />
 	                            </span>
 	                            <div class="media-body">
 	                                <h5 class="media-heading">
@@ -39,7 +39,7 @@
 	                    <a href="#">
 	                        <div class="media">
 	                            <span class="pull-left">
-	                                <img class="media-object" src="http://placehold.it/50x50" alt="" />
+	                                <img class="media-object" src="http://placehold.co/50x50" alt="" />
 	                            </span>
 	                            <div class="media-body">
 	                                <h5 class="media-heading">
@@ -57,7 +57,7 @@
 	                    <a href="#">
 	                        <div class="media">
 	                            <span class="pull-left">
-	                                <img class="media-object" src="http://placehold.it/50x50" alt="" />
+	                                <img class="media-object" src="http://placehold.co/50x50" alt="" />
 	                            </span>
 	                            <div class="media-body">
 	                                <h5 class="media-heading">
@@ -134,7 +134,7 @@
 	    <div class="collapse navbar-collapse navbar-ex1-collapse">
 	        <ul class="nav navbar-nav side-nav">
 	            <li>
-	                <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+	                <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
 	            </li>
 	            <!-- <li>
 	                <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
@@ -152,29 +152,29 @@
 	                    <i class="fa fa-fw fa-caret-down"></i></a>
 	                <ul id="posts_dropdown" class="collapse">
 	                    <li>
-	                        <a href="#">View All Posts</a>
+	                        <a href="posts.php">View All Posts</a>
 	                    </li>
 	                    <li>
-	                        <a href="#">Add Posts</a>
+	                        <a href="posts.php?source=add_post">Add Posts</a>
 	                    </li>
 	                </ul>
 	            </li>
 	            <li>
-	                <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Categories</a>
+	                <a href="categories.php"><i class="fa fa-fw fa-wrench"></i> Categories</a>
 	            </li>
 	            <li>
-	                <a href="bootstrap-grid.html"><i class="fa fa-fw fa-file"></i> Comments</a>
+	                <a href="comments.php"><i class="fa fa-fw fa-file"></i> Comments</a>
 	            </li>
 	            <li>
-	                <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i>
+	                <a href="#" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i>
 	                    Users
 	                    <i class="fa fa-fw fa-caret-down"></i></a>
 	                <ul id="demo" class="collapse">
 	                    <li>
-	                        <a href="#">Dropdown Item</a>
+	                        <a href="users.php">View All Users</a>
 	                    </li>
 	                    <li>
-	                        <a href="#">Dropdown Item</a>
+	                        <a href="users.php?source=add_user">Add User</a>
 	                    </li>
 	                </ul>
 	            </li>

@@ -13,14 +13,29 @@
                 </span>
             </div>
         </form>
+    </div>
 
-        <!-- /.input-group -->
+    <!-- Login -->
+    <div class="well">
+        <h4>Login</h4>
+        <form action="includes/login.php" method="POST">
+            <div class="form-group">
+                <input name="username" type="text" class="form-control" placeholder="Username">
+            </div>
+
+            <div class="input-group">
+                <input name="password" type="password" class="form-control" placeholder="Password">
+                <span class="input-group-btn">
+                    <button name="login" type="submit" class="btn btn-primary">Login</button>
+                </span>
+            </div>
+        </form>
     </div>
 
     <!-- Blog Categories Well -->
 
     <?php
-    $query = "SELECT * FROM categories LIMIT 4";
+    $query = "SELECT * FROM categories";
     $select_posts_categories = mysqli_query($connection, $query);
     ?>
     <div class="well">
@@ -31,7 +46,8 @@
                     <?php
                     while ($row = mysqli_fetch_assoc($select_posts_categories)) {
                         $cat_title = $row['cat_title'];
-                        echo "<li><a href='#'>{$cat_title}</a></li>";
+                        $cat_id = $row['cat_id'];
+                        echo "<li><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
                     }
                     ?>
                 </ul>
