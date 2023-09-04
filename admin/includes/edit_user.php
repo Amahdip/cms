@@ -1,8 +1,9 @@
 <?php
 if (isset($_GET['u_id'])) {
-    $the_user_id = $_GET['u_id'];
+    $_SESSION['user_id'] = $_GET['u_id'];
+    $login_user_id = $_SESSION['user_id'];
 }
-$query = "SELECT * FROM users WHERE user_id = $the_user_id ";
+$query = "SELECT * FROM users WHERE user_id = $login_user_id ";
 $select_user_by_id = mysqli_query($connection, $query);
 confirm($select_user_by_id);
 
@@ -24,9 +25,8 @@ while ($row = mysqli_fetch_assoc($select_user_by_id)) {
 
 if (isset($_POST['edit_user'])) {
 
-    $the_user_id = $_GET['u_id'];
     $username = $_POST['username'];
-    $user_password = $_POST['user_password'];
+    $user_password = password_hash($_POST['user_password'], PASSWORD_BCRYPT);
     $user_firstname = $_POST['user_firstname'];
     $user_lastname = $_POST['user_lastname'];
     $user_image = $_FILES['user_image']['name'];
@@ -37,7 +37,7 @@ if (isset($_POST['edit_user'])) {
     move_uploaded_file($user_image_tmp, "../images/$user_image");
 
     if (empty($user_image)) {
-        $query = "SELECT * FROM users WHERE user_id = $the_user_id ";
+        $query = "SELECT * FROM users WHERE user_id = $login_user_id ";
         $select_image = mysqli_query($connection, $query);
         while ($row = mysqli_fetch_assoc($select_image)) {
             $user_image = $row['user_image'];
@@ -52,12 +52,13 @@ if (isset($_POST['edit_user'])) {
     $query .= "user_lastname = '{$user_lastname}', ";
     $query .= "user_image = '{$user_image}', ";
     $query .= "user_email = '{$user_email}', ";
-    $query .= "user_role = '{$user_role}' ";
-    $query .= "WHERE user_id = $the_user_id";
+    $query .= "user_role = '{$user_role}', ";
+    $query .= "date_created = now() ";
+    $query .= "WHERE user_id = $login_user_id";
 
     $update_user_query = mysqli_query($connection, $query);
     confirm($update_user_query);
-    header("Location: users.php");
+    header("Location: users.php?user=$login_user_id");
 }
 
 ?>
@@ -74,7 +75,7 @@ if (isset($_POST['edit_user'])) {
     </div>
     <div class='form-group'>
         <label for="password">Password</label>
-        <input class='form-control' type="text" name='user_password' value="<?php echo $user_password; ?>">
+        <input class='form-control' type="password" name='user_password' value="<?php echo $user_password; ?>">
     </div>
 
     <div class='form-group'>

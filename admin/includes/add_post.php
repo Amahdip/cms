@@ -1,5 +1,9 @@
 <?php
 
+if (isset($_GET['user'])) {
+    $user_id = $_GET['user'];
+}
+
 if (isset($_POST['create_post'])) {
     $post_title = $_POST['title'];
     $post_category_id = $_POST['post_category'];
@@ -20,7 +24,13 @@ if (isset($_POST['create_post'])) {
 
     $create_post_query = mysqli_query($connection, $query);
     confirm($create_post_query);
-    header("Location: posts.php");
+
+    $the_last_post_id = mysqli_insert_id($connection);
+    echo "<p class='bg-success'>Post Created Successfully.
+    </br>
+    </br>
+    <a href='../../post.php?p_id=$the_last_post_id&user=$user_id'>Click</a> to see the post.</br>
+    Or go back to see all <a href='posts.php?&user=$user_id'>posts</a> </p>";
 }
 
 
@@ -40,21 +50,23 @@ if (isset($_POST['create_post'])) {
 
     <div class='form-group'>
         <label for="category">Category</label>
-        <select name="post_category" id="">
-            <?php
+        <div class="form-group">
+            <select name="post_category" id="">
+                <?php
 
-            $query = "SELECT * FROM categories";
-            $select_categories = mysqli_query($connection, $query);
-            confirm($select_categories);
-            while ($row = mysqli_fetch_assoc($select_categories)) {
-                $cat_id = $row['cat_id'];
-                $cat_title = $row['cat_title'];
+                $query = "SELECT * FROM categories";
+                $select_categories = mysqli_query($connection, $query);
+                confirm($select_categories);
+                while ($row = mysqli_fetch_assoc($select_categories)) {
+                    $cat_id = $row['cat_id'];
+                    $cat_title = $row['cat_title'];
 
-                echo "<option value='$cat_id'>{$cat_title}</option>";
-            }
+                    echo "<option value='$cat_id'>{$cat_title}</option>";
+                }
 
-            ?>
-        </select>
+                ?>
+            </select>
+        </div>
     </div>
 
     <div class='form-group'>
@@ -64,7 +76,12 @@ if (isset($_POST['create_post'])) {
 
     <div class='form-group'>
         <label for="post_status">Post Status</label>
-        <input class='form-control' type="text" name='post_status'>
+        <div class="form-group">
+            <select name="post_status" id="">
+                <option value='draft' selected>Draft</option>
+                <option value='published'>Publish</option>"
+            </select>
+        </div>
     </div>
 
     <div class='form-group'>

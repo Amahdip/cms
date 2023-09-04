@@ -28,10 +28,6 @@ include "includes/admin_header.php";
                             include 'includes/edit_user.php';
                             break;
 
-                        case '74';
-                            echo "Helo from 74";
-                            break;
-
                         default:
                             include 'includes/view_all_users.php';
                     }

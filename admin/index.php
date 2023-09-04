@@ -12,7 +12,7 @@ include "includes/admin_header.php";
 				<div class="col-lg-12">
 					<h1 class="page-header">
 						Admin Page
-						<small>Welcome</small>
+						<small>Welcome <?php echo $_SESSION['username']; ?></small>
 					</h1>
 					<!-- <ol class="breadcrumb">
 						<li>

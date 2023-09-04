@@ -1,3 +1,10 @@
+<?php
+if (isset($_GET['user'])) {
+    $_SESSION['user_id'] = $_GET['user'];
+    $login_user_id = $_SESSION['user_id'];
+}
+?>
+
 <table class="table table-hover table-bordered">
     <thead>
         <tr>
@@ -16,6 +23,8 @@
         <?php
         $query = 'SELECT * FROM comments';
         $select_comments = mysqli_query($connection, $query);
+        $login_user_id = $_SESSION['user_id'];
+
 
         while ($row = mysqli_fetch_assoc($select_comments)) {
             $comment_id = $row['comment_id'];
@@ -38,33 +47,60 @@
             while ($row = mysqli_fetch_assoc($select_post_by_id)) {;
                 $post_title = $row['post_title'];
                 $post_id = $row['post_id'];
-                echo "<td><a href='../post.php?p_id={$post_id}'>{$post_title}</a></td>";
+                echo "<td><a href='../post.php?p_id={$post_id}&user={$login_user_id}'>{$post_title}</a></td>";
             }
-            echo "<td><a href='comments.php?approved={$comment_id}'>Approve</a>/<a href='comments.php?unapproved={$comment_id}'>Unapprove</a></td>";
+            echo "<td><a href='comments.php?approved={$comment_id}&user={$login_user_id}'>Approve</a>/<a href='comments.php?unapproved={$comment_id}&user={$login_user_id}'>Unapprove</a></td>";
             echo "<td>{$comment_date}</td>";
-            echo "<td><a href='comments.php?delete={$comment_id}'>Delete</a></td>";
+            echo "<td><a href='comments.php?delete={$comment_id}&user={$login_user_id}'>Delete</a></td>";
             echo "</tr>";
         }
 
         if (isset($_GET['delete'])) {
-            $the_target_comment = $_GET['delete'];
-            $query = "DELETE FROM comments WHERE comment_id = $the_target_comment";
+            $the_comment_id = $_GET['delete'];
+            $query0 = "SELECT * FROM comments WHERE comment_id = $the_comment_id";
+            $check_comment_status_query = mysqli_query($connection, $query0);
+            $row = mysqli_fetch_assoc($check_comment_status_query);
+            $query = "DELETE FROM comments WHERE comment_id = $the_comment_id";
             $delete_comment = mysqli_query($connection, $query);
-            header("Location: comments.php");
+            if ($row['comment_status'] == 'approved') {
+                $query2 = "UPDATE posts SET post_comment_count = post_comment_count - 1 WHERE post_id = $post_id";
+                $update_comment_count_query = mysqli_query($connection, $query2);
+                header("Location: comments.php?user={$login_user_id}");
+            } else {
+                header("Location: comments.php?user={$login_user_id}");
+            }
         }
 
         if (isset($_GET['approved'])) {
             $the_comment_id = $_GET['approved'];
-            $query = "UPDATE comments SET comment_status = 'approved' WHERE comment_id = $the_comment_id";
-            $change_comment_status_query = mysqli_query($connection, $query);
-            header("Location: comments.php");
+            $query0 = "SELECT * FROM comments WHERE comment_id = $the_comment_id";
+            $check_comment_status_query = mysqli_query($connection, $query0);
+            $row = mysqli_fetch_assoc($check_comment_status_query);
+            if ($row['comment_status'] != 'approved') {
+                $query = "UPDATE comments SET comment_status = 'approved' WHERE comment_id = $the_comment_id";
+                $change_comment_status_query = mysqli_query($connection, $query);
+                $query2 = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $post_id";
+                $update_comment_count_query = mysqli_query($connection, $query2);
+                header("Location: comments.php?user={$login_user_id}");
+            }
         }
 
         if (isset($_GET['unapproved'])) {
             $the_comment_id = $_GET['unapproved'];
-            $query = "UPDATE comments SET comment_status = 'unapproved' WHERE comment_id = $the_comment_id";
-            $change_comment_status_query = mysqli_query($connection, $query);
-            header("Location: comments.php");
+            $query0 = "SELECT * FROM comments WHERE comment_id = $the_comment_id";
+            $check_comment_status_query = mysqli_query($connection, $query0);
+            $row = mysqli_fetch_assoc($check_comment_status_query);
+            if ($row['comment_status'] == 'approve') {
+                $query = "UPDATE comments SET comment_status = 'unapproved' WHERE comment_id = $the_comment_id";
+                $change_comment_status_query = mysqli_query($connection, $query);
+                $query2 = "UPDATE posts SET post_comment_count = post_comment_count - 1 WHERE post_id = $post_id";
+                $update_comment_count_query = mysqli_query($connection, $query2);
+                header("Location: comments.php?user={$login_user_id}");
+            } else if ($row['comment_status'] == 'pending') {
+                $query = "UPDATE comments SET comment_status = 'unapproved' WHERE comment_id = $the_comment_id";
+                $change_comment_status_query = mysqli_query($connection, $query);
+                header("Location: comments.php?user={$login_user_id}");
+            }
         };
         ?>
 

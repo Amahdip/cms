@@ -1,3 +1,7 @@
+<?php
+$login_user_id = $_SESSION['user_id'];
+?>
+
 <h1 class="page-header">
     Users
     <small>View All Users</small>
@@ -40,7 +44,7 @@
             echo "<td><img src='../images/{$user_image}' width=40></td>";
             echo "<td>{$user_role}</td>";
             echo "<td>{$date_created}</td>";
-            echo "<td><a href='users.php?delete={$user_id}'>Delete</a>/<a href='users.php?source=edit_user&u_id={$user_id}''>Edit</a></td>";
+            echo "<td><a href='users.php?delete={$user_id}&user=$login_user_id'>Delete</a>/<a href='users.php?source=edit_user&u_id={$user_id}&user=$login_user_id'>Edit</a></td>";
 
             // $query = "SELECT * FROM posts WHERE post_id = $comment_post_id";
             // $select_post_by_id = mysqli_query($connection, $query);

@@ -16,8 +16,7 @@ include "./includes/navigation.php"
         <!-- Blog Entries Column -->
         <div class="col-md-8">
             <h1 class="page-header">
-                Page Heading
-                <small>Secondary Text</small>
+                Home Page <small>This is my blog</small>
             </h1>
 
             <!-- First Blog Post -->
@@ -33,26 +32,71 @@ include "./includes/navigation.php"
                 $post_image = $row['post_image'];
                 $post_content = substr($row['post_content'], 0, 100);
                 $post_status = $row['post_status'];
+                $post_category_id = $row['post_category_id'];
 
                 if ($post_status === 'published') {
 
             ?>
 
-                    <!-- Blog Posts -->
-                    <h2>
-                        <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
-                    </h2>
-                    <p class="lead">
-                        by <a href="index.php"><?php echo $post_author ?></a>
-                    </p>
-                    <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
-                    <hr>
-                    <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="">
-                    <hr>
-                    <p><?php echo $post_content ?></p>
-                    <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <!-- Blog Posts -->
+            <h2>
+                <?php
+                        if (isset($login_user_id)) {
+                        ?>
+                <a
+                    href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>"><?php echo $post_title ?></a>
+                <?php
+                        } else {
+                        ?>
+                <a
+                    href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
+                <?php } ?>
+            </h2>
+            <p class="lead">
+                by <a href="index.php"><?php echo $post_author ?></a>
+            </p>
+            <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
+            <hr>
+            <?php
+                    if (isset($login_user_id)) {
+                    ?>
 
-                    <hr>
+            <a
+                href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>"><img
+                    class="img-responsive" src="images/<?php echo $post_image ?>" alt=""></a>
+            <?php
+                    } else {
+                    ?>
+            <a href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>"><img
+                    class="img-responsive" src="images/<?php echo $post_image ?>" alt=""></a>
+            <?php } ?>
+            <hr>
+            <p><?php echo $post_content ?></p>
+            <?php
+                    if (isset($login_user_id)) {
+                    ?>
+            <a class="btn btn-primary"
+                href="post.php?p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>">Read More <span
+                    class="glyphicon glyphicon-chevron-right"></span></a>
+            <?php
+                    } else {
+                    ?>
+            <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id; ?>">Read More <span
+                    class="glyphicon glyphicon-chevron-right"></span></a>
+
+            <?php } ?>
+
+
+            <?php
+                    if (isset($login_user_id)) {
+                    ?>
+
+            <a class="btn btn-primary"
+                href="admin/posts.php?source=edit_post&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>">Edit
+                <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <?php } ?>
+
+            <hr>
 
             <?php }
             } ?>

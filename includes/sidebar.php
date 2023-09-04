@@ -47,7 +47,11 @@
                     while ($row = mysqli_fetch_assoc($select_posts_categories)) {
                         $cat_title = $row['cat_title'];
                         $cat_id = $row['cat_id'];
-                        echo "<li><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
+                        if (isset($login_user_id)) {
+                            echo "<li><a href='category.php?category=$cat_id&user=$login_user_id'>{$cat_title}</a></li>";
+                        } else {
+                            echo "<li><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
+                        }
                     }
                     ?>
                 </ul>

@@ -1,7 +1,13 @@
 <?php
+
+if (isset($_GET['user'])) {
+    $user_id = $_GET['user'];
+}
+
 if (isset($_GET['p_id'])) {
     $the_post_id = $_GET['p_id'];
 }
+
 $query = "SELECT * FROM posts WHERE post_id = $the_post_id ";
 $select_posts_by_id = mysqli_query($connection, $query);
 confirm($select_posts_by_id);
@@ -34,6 +40,7 @@ if (isset($_POST['edit_post'])) {
     $post_tags = $_POST['post_tags'];
     $post_content = $_POST['post_content'];
 
+
     move_uploaded_file($post_image_tmp, "../images/$post_image");
 
     if (empty($post_image)) {
@@ -53,16 +60,19 @@ if (isset($_POST['edit_post'])) {
     $query .= "post_image = '{$post_image}', ";
     $query .= "post_content = '{$post_content}', ";
     $query .= "post_tags = '{$post_tags}', ";
+    $query .= "post_date = now(), ";
     $query .= "post_status = '{$post_status}' ";
     $query .= "WHERE post_id = $the_post_id";
 
     $update_post_query = mysqli_query($connection, $query);
     confirm($update_post_query);
-    header("Location: posts.php");
+    echo "<p class='bg-success'>Post Updated Successfully.
+    </br>
+    </br>
+    <a href='../../post.php?p_id=$post_id&user=$user_id'>Click</a> to see the post.</br>
+    Or go back to see all <a href='posts.php?&user=$user_id'>posts</a> </p>";
 }
-
 ?>
-
 <h1 class="page-header">
     Posts
     <small>Edit Post</small>
@@ -71,8 +81,9 @@ if (isset($_POST['edit_post'])) {
 <form action="" method="POST" enctype="multipart/form-data">
     <div class='form-group'>
         <label for="title">Post Title</label>
-        <input class='form-control' type="text" name='title' value="<?php echo $post_title; ?>">
+        <input class='form-control' type="text" name='title' value="<?php echo $post_title ?>">
     </div>
+
 
     <div class='form-group'>
         <label for="category">Category</label>
@@ -100,7 +111,18 @@ if (isset($_POST['edit_post'])) {
 
     <div class='form-group'>
         <label for="post_status">Post Status</label>
-        <input class='form-control' type="text" name='post_status' value="<?php echo $post_status; ?>">
+        <div class="form-group">
+            <select name="post_status" id="">
+                <option value="<?php echo $post_status ?>"><?php echo $post_status ?></option>
+                <?php
+                if ($post_status == 'published') {
+                    echo "<option value='draft'>Draft</option>";
+                } else {
+                    echo "<option value='published'>Publish</option>";
+                }
+                ?>
+            </select>
+        </div>
     </div>
 
     <div class='form-group'>
@@ -116,8 +138,7 @@ if (isset($_POST['edit_post'])) {
 
     <div class='form-group'>
         <label for="post_content">Post Content</label>
-        <textarea class='form-control' id="" name='post_content' cols="30"
-            rows="10"><?php echo $post_content; ?></textarea>
+        <textarea class='form-control' id="" name='post_content' cols="30" rows="10"><?php echo $post_content; ?></textarea>
     </div>
 
     <div class='form-group'>

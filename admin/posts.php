@@ -1,6 +1,8 @@
 <?php
 include "includes/admin_header.php";
+$user_id = $_SESSION['user_id'];
 ?>
+
 
 <div id="wrapper">
     <?php include "includes/admin_navigation.php" ?>
@@ -12,6 +14,10 @@ include "includes/admin_header.php";
 
                     <?php
 
+                    // if (isset($_GET['user'])) {
+                    //     $user_id = $_GET['user'];
+                    // }
+
                     if (isset($_GET['source'])) {
                         $source = $_GET['source'];
                     } else {
@@ -21,19 +27,15 @@ include "includes/admin_header.php";
                     switch ($source) {
 
                         case 'add_post';
-                            include 'includes/add_post.php';
+                            include "includes/add_post.php";
                             break;
 
                         case 'edit_post';
-                            include 'includes/edit_post.php';
-                            break;
-
-                        case '74';
-                            echo "Helo from 74";
+                            include "includes/edit_post.php";
                             break;
 
                         default:
-                            include 'includes/view_all_posts.php';
+                            include "includes/view_all_posts.php";
                     }
                     ?>
 

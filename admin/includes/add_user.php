@@ -3,12 +3,12 @@
 if (isset($_POST['create_user'])) {
     $username = strtolower($_POST['username']);
     $user_password = $_POST['user_password'];
-    $user_firstname = strtolower(ucwords($_POST['user_firstname']));
-    $user_lastname = strtolower(ucwords($_POST['user_lastname']));
+    $user_firstname = ucwords(strtolower($_POST['user_firstname']));
+    $user_lastname = ucwords(strtolower($_POST['user_lastname']));
     $user_image = $_FILES['user_image']['name'];
     $user_image_tmp = $_FILES['user_image']['tmp_name'];
     $user_email = strtolower($_POST['user_email']);
-    $user_role = $_POST['user_role'];
+    $user_role = strtolower($_POST['user_role']);
 
 
     move_uploaded_file($user_image_tmp, "../images/$user_image");
@@ -19,7 +19,7 @@ if (isset($_POST['create_user'])) {
 
     $create_user_query = mysqli_query($connection, $query);
     confirm($create_user_query);
-    header("Location: users.php");
+    echo "User Created Successfully " . "<a href='users.php?user=$user_id'>Users</a>";
 }
 
 
@@ -32,23 +32,32 @@ if (isset($_POST['create_user'])) {
 </h1>
 
 <form action="" method="POST" enctype="multipart/form-data">
+
+    <div class='form-group'>
+        <label for="firstname">Firstname</label>
+        <input class='form-control' type="text" name='user_firstname' placeholder="first name" required>
+    </div>
+
+    <div class='form-group'>
+        <label for="lastname">Lastname</label>
+        <input class='form-control' type="text" name='user_lastname' placeholder="lastname" required>
+    </div>
     <div class='form-group'>
         <label for="username">Username</label>
         <input class='form-control' type="text" name='username' placeholder="username" required>
     </div>
     <div class='form-group'>
+        <label for="role">Role</label>
+        <select name="user_role" id="">
+            <option value="Admin">Admin</option>
+            <option value="Moderator">Moderator</option>
+            <option value="Copywriter">Copywriter</option>
+            <option value="Visitor" selected>Visitor</option>
+        </select>
+    </div>
+    <div class='form-group'>
         <label for="password">Password</label>
         <input class='form-control' type="text" name='user_password' placeholder="password" required>
-    </div>
-
-    <div class='form-group'>
-        <label for="firstname">Firstname</label>
-        <input class='form-control' type="text" name='user_firstname' required>
-    </div>
-
-    <div class='form-group'>
-        <label for="lastname">Lastname</label>
-        <input class='form-control' type="text" name='user_lastname' required>
     </div>
 
     <div class='form-group'>
@@ -62,15 +71,6 @@ if (isset($_POST['create_user'])) {
 
     </div>
 
-    <div class='form-group'>
-        <label for="role">Role</label>
-        <select name="user_role" id="">
-            <option value="Admin">Admin</option>
-            <option value="Moderator">Moderator</option>
-            <option value="Copywriter">Copywriter</option>
-            <option value="Visitor" selected>Visitor</option>
-        </select>
-    </div>
 
     <div class='form-group'>
         <input class='btn btn-primary' type="submit" name="create_user" value="Add User">
