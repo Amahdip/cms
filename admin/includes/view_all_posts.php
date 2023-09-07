@@ -8,8 +8,6 @@ if (isset($_POST['submit'])) {
         switch ($bulk_options) {
             case 'published':
                 updatePostStatus($bulk_options, $postValueId);
-
-
                 break;
 
             case 'draft':
@@ -19,9 +17,7 @@ if (isset($_POST['submit'])) {
 
             case 'delete':
                 deletePost($postValueId);
-
                 break;
-
 
             case 'clone':
                 clonePost($postValueId);
@@ -96,8 +92,8 @@ if (isset($_POST['submit'])) {
 
                 echo "<tr>";
             ?>
-            <td><input type='checkbox' class='checkBoxes' name='checkBoxArray[]' value='<?php echo $post_id; ?>'>
-            </td>
+                <td><input type='checkbox' class='checkBoxes' name='checkBoxArray[]' value='<?php echo $post_id; ?>'>
+                </td>
 
             <?php
                 echo "<td>{$post_id}</td>";

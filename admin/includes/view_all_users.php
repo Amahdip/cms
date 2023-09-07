@@ -59,8 +59,8 @@ $login_user_id = $_SESSION['user_id'];
             // echo "</tr>";
         }
 
-        if (isset($_GET['delete'])) {
-            $the_target_user = $_GET['delete'];
+        if (isset($_GET['delete']) && $_SESSION['username'] == 'admin') {
+            $the_target_user = mysqli_real_escape_string($connection, $_GET['delete']);
             $query = "DELETE FROM users WHERE user_id = $the_target_user";
             $delete_comment = mysqli_query($connection, $query);
             header("Location: users.php");

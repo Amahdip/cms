@@ -169,7 +169,7 @@
 				<li>
 					<a href="categories.php?user=<?php echo $user_id ?>"><i class="fa fa-fw fa-wrench"></i> Categories</a>
 				</li>
-				<?php if ($_SESSION['role'] === 'admin') { ?>
+				<?php if (isAdmin($_SESSION['username'])) { ?>
 					<li>
 						<a href="comments.php?user=<?php echo $user_id ?>"><i class="fa fa-fw fa-file"></i> Comments</a>
 					</li>

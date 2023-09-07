@@ -1,9 +1,10 @@
+<?php include "db.php"; ?>
+
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -11,9 +12,9 @@
             </button>
             <?php if (isset($login_user_id)) {
             ?>
-            <a class="navbar-brand" href="index.php?user=<?php echo $login_user_id ?>">Home</a>
+                <a class="navbar-brand" href="index.php?user=<?php echo $login_user_id ?>">Home</a>
             <?php } else { ?>
-            <a class="navbar-brand" href="index.php">Home</a>
+                <a class="navbar-brand" href="index.php">Home</a>
             <?php } ?>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -36,13 +37,13 @@
 
                 ?>
                 <?php if (isset($_SESSION['role'])) { ?>
-                <li>
-                    <a href="../admin/dashboard.php?user=<?php echo $login_user_id ?>">Admin</a>
-                </li>
+                    <li>
+                        <a href="../admin/dashboard.php?user=<?php echo $login_user_id ?>">Admin</a>
+                    </li>
                 <?php } else { ?>
-                <li>
-                    <a href="../registration.php">Register</a>
-                </li>
+                    <li>
+                        <a href="../registration.php">Register</a>
+                    </li>
 
                 <?php } ?>
 

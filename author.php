@@ -1,7 +1,7 @@
 <?php
 include "./includes/header.php";
-include "./includes/db.php";
 ?>
+
 <!-- Navigation -->
 <?php
 
@@ -41,77 +41,44 @@ include "./includes/navigation.php"
                 $post_image = $row['post_image'];
                 $post_content = substr($row['post_content'], 0, 100);
                 $post_status = $row['post_status'];
+                $post_category_id = $row['post_category_id'];
+
 
             ?>
 
-            <!-- Blog Posts -->
-            <h2>
-                <?php
-                    if (isset($login_user_id)) {
-                    ?>
-                <a
-                    href="post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>"><?php echo $post_title ?></a>
-                <?php
-                    } else {
-                    ?>
-                <a
-                    href="post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
-                <?php } ?>
-            </h2>
-            <p class="lead">by
-                <?php
-                    if (isset($login_user_id)) {
-                    ?>
-                <a
-                    href="author.php?p_author=<?php echo $post_author; ?>&user=<?php echo $login_user_id ?>"><?php echo $post_author ?></a>
-
-                <?php
-                    } else {
-                    ?>
-                <a href="author.php?p_author=<?php echo $post_author; ?>"><?php echo $post_author ?></a>
-
-                <?php } ?>
-
-            </p>
-            <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
-            <hr>
-            <hr>
-            <?php
-                if (isset($login_user_id)) {
-                ?>
-
-            <a
-                href="post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>">
-                <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="">
-            </a>
-            <?php
-                } else {
-                ?>
-            <a href="post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>"><img
-                    class="img-responsive" src="images/<?php echo $post_image ?>" alt=""></a>
-            <?php } ?>
-            <hr>
-            <hr>
-            <p><?php echo $post_content ?></p>
-            <a class="btn btn-primary"
-                href="post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>">Read
-                More
-                <span class=" glyphicon
+                <!-- Blog Posts -->
+                <h2>
+                    <a href="post.php?&p_id=<?php echo $post_id; ?><?php if (isset($login_user_id)) echo "&user=$login_user_id"; ?>"><?php echo $post_title ?></a>
+                </h2>
+                <p class="lead">by
+                    <a href="author.php?p_author=<?php echo $post_author; ?><?php if (isset($login_user_id)) echo "&user=$login_user_id"; ?>"><?php echo $post_author ?></a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
+                <hr>
+                <hr>
+                <a href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?><?php if (isset($login_user_id)) echo "&user=$login_user_id"; ?>">
+                    <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="">
+                </a>
+                <hr>
+                <hr>
+                <p><?php echo $post_content ?></p>
+                <a class="btn btn-primary" href="post.php?&p_id=<?php echo $post_id; ?><?php if (isset($login_user_id)) echo "&user=$login_user_id"; ?>">Read
+                    More
+                    <span class=" glyphicon
                 glyphicon-chevron-right"></span></a>
-
-            <hr>
+                <hr>
 
             <?php } ?>
 
             <!-- Pager -->
-            <ul class="pager">
+            <!-- <ul class="pager">
                 <li class="previous">
                     <a href="#">&larr; Older</a>
                 </li>
                 <li class="next">
                     <a href="#">Newer &rarr;</a>
                 </li>
-            </ul>
+            </ul> -->
 
         </div>
 

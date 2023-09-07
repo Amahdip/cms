@@ -1,5 +1,6 @@
-<?php include "includes/db.php"; ?>
 <?php include "includes/header.php"; ?>
+<?php include "./admin/functions.php"; ?>
+
 
 
 <!-- Navigation -->
@@ -33,23 +34,24 @@
                             if (isset($_POST['user-register'])) {
                                 $username = strtolower(mysqli_escape_string($connection, $_POST['username']));
                                 $user_email = strtolower(mysqli_escape_string($connection, $_POST['email']));
-                                $user_password = mysqli_escape_string($connection, $_POST['password']);
+                                $user_password = mysqli_real_escape_string($connection, $_POST['password']);
                                 $user_password = password_hash($user_password, PASSWORD_BCRYPT);
 
-
-                                $query = "SELECT count(*) FROM users WHERE username = '{$username}' ";
-                                $looking_up_username_query = mysqli_query($connection, $query);
-                                $count = mysqli_fetch_column($looking_up_username_query);
-                                if ($count > 0) {
+                                if (is_usernameAvailable($username) && !is_emailAvailable($user_email)) {
                                     echo "<p class='bg-danger'>username not available</p>";
+                                } else if (!is_usernameAvailable($username) && is_emailAvailable($user_email)) {
+                                    echo "<p class='bg-danger'>email not available</p>";
+                                } else if (is_usernameAvailable($username) && is_emailAvailable($user_email)) {
+                                    echo "<p class='bg-danger'>a user with the same username and email exists <a href='users.php?forgotton_password''>password recovery?<?a></p>";
                                 } else {
+
                                     $query = "INSERT INTO users (username, user_email, user_password) ";
                                     $query .= "VALUES ('{$username}', '{$user_email}', '{$user_password}')";
                                     $register_user_query = mysqli_query($connection, $query);
                                     if (!$register_user_query) {
                                         die("QUARY FAILED" . mysqli_error($connection) . mysqli_errno($connection));
                                     } else {
-                                        echo "<p class='bg-success'>User Created Successfully.</p>";
+                                        echo "<p class='bg-success'>User Created Successfully <a href=''>redirect</a></p>";
                                     }
                                 }
                             }
