@@ -16,23 +16,22 @@ include "./includes/navigation.php"
         <!-- Blog Entries Column -->
         <div class="col-md-8">
             <?php
-            if (isset($_GET['category'])) {
-                $post_category_id = $_GET['category'];
-                $query = "SELECT * FROM categories WHERE cat_id = $post_category_id";
-                $grab_category_name = mysqli_query($connection, $query);
-                while ($row = mysqli_fetch_assoc($grab_category_name)) {
-                    $category_name = $row['cat_title'];
-                    echo "<h1 class='page-header'>$category_name
-                    <small>Category Page</small></h1>";
-                }
+            if (isset($_GET['p_author'])) {
+                $post_author = $_GET['p_author'];
+                $query = "SELECT * FROM posts WHERE post_author = '$post_author'";
+                $grab_author_posts = mysqli_query($connection, $query);
+                $row = mysqli_fetch_assoc($grab_author_posts);
+                $author = $row['post_author'];
+                echo "<h1 class='page-header'>Posts
+                    <small>by $author</small></h1>";
             }
             ?>
 
             <?php
-            if (isset($_GET['category'])) {
-                $post_category_id = $_GET['category'];
+            if (isset($_GET['p_author'])) {
+                $post_author = $_GET['p_author'];
             }
-            $query = "SELECT * FROM posts WHERE post_category_id = $post_category_id AND post_status='published'";
+            $query = "SELECT * FROM posts WHERE post_author = '$post_author' AND post_status='published'";
             $select_all_posts_query = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
                 $post_id = $row['post_id'];
@@ -51,12 +50,12 @@ include "./includes/navigation.php"
                     if (isset($login_user_id)) {
                     ?>
                 <a
-                    href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>"><?php echo $post_title ?></a>
+                    href="post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>"><?php echo $post_title ?></a>
                 <?php
                     } else {
                     ?>
                 <a
-                    href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
+                    href="post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
                 <?php } ?>
             </h2>
             <p class="lead">by
@@ -82,20 +81,20 @@ include "./includes/navigation.php"
                 ?>
 
             <a
-                href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>">
+                href="post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>">
                 <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="">
             </a>
             <?php
                 } else {
                 ?>
-            <a href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>"><img
+            <a href="post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>"><img
                     class="img-responsive" src="images/<?php echo $post_image ?>" alt=""></a>
             <?php } ?>
             <hr>
             <hr>
             <p><?php echo $post_content ?></p>
             <a class="btn btn-primary"
-                href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>">Read
+                href="post.php?p_author=<?php echo $post_author; ?>&p_id=<?php echo $post_id; ?>">Read
                 More
                 <span class=" glyphicon
                 glyphicon-chevron-right"></span></a>
@@ -105,14 +104,14 @@ include "./includes/navigation.php"
             <?php } ?>
 
             <!-- Pager -->
-            <!-- <ul class="pager">
+            <ul class="pager">
                 <li class="previous">
                     <a href="#">&larr; Older</a>
                 </li>
                 <li class="next">
                     <a href="#">Newer &rarr;</a>
                 </li>
-            </ul> -->
+            </ul>
 
         </div>
 

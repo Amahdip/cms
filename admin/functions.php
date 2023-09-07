@@ -64,3 +64,84 @@ function add_categories()
         }
     }
 }
+
+// count query function
+
+function counting($table)
+{
+    global $connection;
+    $query = "SELECT * FROM $table";
+    $select_query = mysqli_query($connection, $query);
+    $result = mysqli_num_rows($select_query);
+    confirm($result);
+
+    return $result;
+}
+
+
+function countingRecords($table, $where, $status)
+{
+    global $connection;
+    $query = "SELECT * FROM $table WHERE $where = '$status'";
+    $select_query = mysqli_query($connection, $query);
+    $result = mysqli_num_rows($select_query);
+    confirm($result);
+
+    return $result;
+}
+
+// cloning posts
+
+function clonePost($id)
+{
+    global $connection;
+    $query  = "SELECT posts.post_id, posts.post_author,posts.post_title,posts.post_category_id, ";
+    $query .= "posts.post_status,posts.post_content, posts.post_image,posts.post_tags,posts.post_comment_count,posts.post_date, categories.cat_title ";
+    $query .= " FROM posts ";
+    $query .= " LEFT JOIN categories ON posts.post_category_id = categories.cat_id ";
+    $query .= "WHERE post_id = {$id} ";
+    $select_posts = mysqli_query($connection, $query);
+    confirm($select_posts);
+
+    while ($row = mysqli_fetch_assoc($select_posts)) {
+        $post_id = $row['post_id'];
+        $post_author = $row['post_author'];
+        $post_title = $row['post_title'];
+        $post_category_id = $row['post_category_id'];
+        $post_status = $row['post_status'];
+        $post_image = $row['post_image'];
+        $post_tags = $row['post_tags'];
+        $post_comment_count = $row['post_comment_count'];
+        $post_date = $row['post_date'];
+        $post_content = $row['post_content'];
+        $cat_title = $row['cat_title'];
+
+        $query = "INSERT INTO posts (post_category_id,post_title,post_author,post_date,post_image,post_content,post_tags,post_status) ";
+        $query .= "VALUES ({$post_category_id},'{$post_title}','{$post_author}',now(),'{$post_image}', '{$post_content}','{$post_tags}','{$post_status}') ";
+
+        $create_post_query = mysqli_query($connection, $query);
+        confirm($create_post_query);
+
+        $the_last_post_id = mysqli_insert_id($connection);
+    }
+}
+
+// delete post
+
+function deletePost($id)
+{
+    global $connection;
+    $query = "DELETE FROM posts WHERE post_id = {$id} ";
+    $delete_post_query = mysqli_query($connection, $query);
+    confirm($delete_post_query);
+}
+
+// update post status
+
+function updatePostStatus($status, $id)
+{
+    global $connection;
+    $query = "UPDATE posts SET post_status = '{$status}' WHERE post_id = {$id} ";
+    $update_post_status_query = mysqli_query($connection, $query);
+    confirm($update_post_status_query);
+}

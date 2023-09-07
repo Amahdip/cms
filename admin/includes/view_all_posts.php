@@ -7,24 +7,24 @@ if (isset($_POST['submit'])) {
         $bulk_options = $_POST['bulk_options'];
         switch ($bulk_options) {
             case 'published':
-                $query = "UPDATE posts SET post_status = '{$bulk_options}' WHERE post_id = {$postValueId} ";
-                $update_post_status_query = mysqli_query($connection, $query);
-                confirm($update_post_status_query);
+                updatePostStatus($bulk_options, $postValueId);
+
 
                 break;
 
             case 'draft':
-                $query = "UPDATE posts SET post_status = '{$bulk_options}' WHERE post_id = {$postValueId} ";
-                $update_post_status_query = mysqli_query($connection, $query);
-                confirm($update_post_status_query);
+                updatePostStatus($bulk_options, $postValueId);
 
                 break;
 
             case 'delete':
-                $query2 = "DELETE FROM posts WHERE post_id = {$postValueId} ";
-                $delete_post_query = mysqli_query($connection, $query2);
-                confirm($delete_post_query);
+                deletePost($postValueId);
 
+                break;
+
+
+            case 'clone':
+                clonePost($postValueId);
                 break;
         }
     }
@@ -45,6 +45,7 @@ if (isset($_POST['submit'])) {
                 <option value="published">Publish</option>
                 <option value="draft">Draft</option>
                 <option value="delete">Delete</option>
+                <option value="clone">Clone</option>
             </select>
         </div>
         <div class="col-xs-4">
@@ -74,8 +75,12 @@ if (isset($_POST['submit'])) {
         </thead>
         <tbody>
             <?php
-            $query = 'SELECT * FROM posts';
+            $query  = "SELECT posts.post_id, posts.post_author,posts.post_title,posts.post_category_id, ";
+            $query .= "posts.post_status,posts.post_image,posts.post_tags,posts.post_comment_count,posts.post_date, categories.cat_title ";
+            $query .= " FROM posts ";
+            $query .= " LEFT JOIN categories ON posts.post_category_id = categories.cat_id ORDER BY posts.post_id ASC ";
             $select_posts = mysqli_query($connection, $query);
+            confirm($select_posts);
 
             while ($row = mysqli_fetch_assoc($select_posts)) {
                 $post_id = $row['post_id'];
@@ -87,22 +92,18 @@ if (isset($_POST['submit'])) {
                 $post_tags = $row['post_tags'];
                 $post_comment_count = $row['post_comment_count'];
                 $post_date = $row['post_date'];
+                $cat_title = $row['cat_title'];
 
                 echo "<tr>";
             ?>
-                <td><input type='checkbox' class='checkBoxes' name='checkBoxArray[]' value='<?php echo $post_id; ?>'>
-                </td>
+            <td><input type='checkbox' class='checkBoxes' name='checkBoxArray[]' value='<?php echo $post_id; ?>'>
+            </td>
 
             <?php
                 echo "<td>{$post_id}</td>";
                 echo "<td>{$post_author}</td>";
                 echo "<td><a href='../../post.php?p_id=$post_id&user=$login_user_id'>{$post_title}</a></td>";
-
-                $query2 = "SELECT * FROM categories WHERE cat_id = {$post_category_id}";
-                $select_category_title = mysqli_query($connection, $query2);
-                while ($row = mysqli_fetch_assoc($select_category_title)) {
-                    echo "<td>{$row['cat_title']}</td>";
-                }
+                echo "<td>{$cat_title}</td>";
                 echo "<td>{$post_status}</td>";
                 echo "<td><img src='../images/{$post_image}' width=100 </td>";
                 echo "<td>{$post_tags}</td>";

@@ -44,16 +44,28 @@ include "./includes/navigation.php"
                         if (isset($login_user_id)) {
                         ?>
                 <a
-                    href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>"><?php echo $post_title ?></a>
+                    href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>&user=<?php echo $login_user_id ?>&p_author=<?php echo $post_author ?>"><?php echo $post_title ?></a>
                 <?php
                         } else {
                         ?>
                 <a
-                    href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
+                    href="post.php?category=<?php echo $post_category_id; ?>&p_id=<?php echo $post_id; ?>&p_author=<?php echo $post_author ?>"><?php echo $post_title ?></a>
                 <?php } ?>
             </h2>
-            <p class="lead">
-                by <a href="index.php"><?php echo $post_author ?></a>
+            <p class="lead">by
+                <?php
+                        if (isset($login_user_id)) {
+                        ?>
+                <a
+                    href="author.php?p_author=<?php echo $post_author; ?>&user=<?php echo $login_user_id ?>"><?php echo $post_author ?></a>
+
+                <?php
+                        } else {
+                        ?>
+                <a href="author.php?p_author=<?php echo $post_author; ?>"><?php echo $post_author ?></a>
+
+                <?php } ?>
+
             </p>
             <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
             <hr>
@@ -102,14 +114,14 @@ include "./includes/navigation.php"
             } ?>
 
             <!-- Pager -->
-            <ul class="pager">
+            <!-- <ul class="pager">
                 <li class="previous">
                     <a href="#">&larr; Older</a>
                 </li>
                 <li class="next">
                     <a href="#">Newer &rarr;</a>
                 </li>
-            </ul>
+            </ul> -->
 
         </div>
 
