@@ -1,5 +1,8 @@
 <?php
+include "functions.php";
 include "includes/admin_header.php";
+include_once "../includes/db.php";
+
 $user_id = $_SESSION['user_id'];
 ?>
 

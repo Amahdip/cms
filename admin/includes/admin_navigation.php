@@ -5,6 +5,7 @@
 		$user_id = $_GET['user'];
 	}
 
+
 	?>
 
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">

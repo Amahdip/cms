@@ -1,12 +1,8 @@
-<?php include "includes/header.php"; ?>
-<?php include "./admin/functions.php"; ?>
-
-
-
-<!-- Navigation -->
-
-<?php include "includes/navigation.php"; ?>
-
+<?php
+include "./admin/functions.php";
+include "includes/header.php";
+include "includes/navigation.php";
+?>
 
 <!-- Page Content -->
 <div class="container">
@@ -42,7 +38,11 @@
                                 } else if (!is_usernameAvailable($username) && is_emailAvailable($user_email)) {
                                     echo "<p class='bg-danger'>email not available</p>";
                                 } else if (is_usernameAvailable($username) && is_emailAvailable($user_email)) {
-                                    echo "<p class='bg-danger'>a user with the same username and email exists <a href='users.php?forgotton_password''>password recovery?<?a></p>";
+                                    if (does_userExist($user_email, $username)) {
+                                        echo "<p class='bg-danger'>a user with the same username and email exists <a href='users.php?forgotton_password''>password recovery?<?a></p>";
+                                    } else {
+                                        echo "<p class='bg-danger'>Neither username nor email is available</p>";
+                                    }
                                 } else {
 
                                     $query = "INSERT INTO users (username, user_email, user_password) ";

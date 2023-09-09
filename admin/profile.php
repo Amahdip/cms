@@ -1,6 +1,7 @@
-<?php include "includes/admin_header.php"; ?>
+<?php include "functions.php";
+include "includes/admin_header.php";
+include_once "../includes/db.php";
 
-<?php
 
 
 $query = "SELECT * FROM users WHERE user_id = $user_id ";

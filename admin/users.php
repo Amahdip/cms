@@ -1,4 +1,6 @@
 <?php
+include "functions.php";
+include_once "../includes/db.php";
 include "includes/admin_header.php";
 ?>
 

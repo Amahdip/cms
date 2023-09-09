@@ -1,4 +1,5 @@
 <?php
+
 if (isset($_GET['user'])) {
     $login_user_id = $_GET['user'];
     session_start();

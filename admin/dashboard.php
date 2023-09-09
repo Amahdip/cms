@@ -1,5 +1,7 @@
 <?php
+include "functions.php";
 include "includes/admin_header.php";
+include_once "../includes/db.php";
 
 
 
@@ -23,50 +25,50 @@ $comment_pending_rows_count = countingRecords('comments', 'comment_status', 'pen
 
 <head>
     <script type="text/javascript">
-    google.charts.load("current", {
-        packages: ['corechart']
-    });
-    google.charts.setOnLoadCallback(drawChart);
+        google.charts.load("current", {
+            packages: ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ["Element", "Density", {
-                role: "style"
-            }],
-            ["Posts", <?php echo $post_rows_count ?>, "#337ab7"],
-            ["Draft", <?php echo $post_draft_rows_count ?>, "#4584ba"],
-            ["Published", <?php echo $post_published_rows_count ?>, "#6185a4"],
-            ["Comments", <?php echo $comment_rows_count ?>, "#5cb85c"],
-            ["Approved Comments", <?php echo $comment_approved_rows_count ?>, "#369537"],
-            ["Unapproved Comments", <?php echo $comment_unapproved_rows_count ?>, "#21b823"],
-            ["Pending Comments", <?php echo $comment_pending_rows_count ?>, "#19ff1c"],
-            ["Users", <?php echo $user_rows_count ?>, "#f0ad4e"],
-            ["Categories", <?php echo $category_rows_count ?>, "color: #d9534f"]
-        ]);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ["Element", "Density", {
+                    role: "style"
+                }],
+                ["Posts", <?php echo $post_rows_count ?>, "#337ab7"],
+                ["Draft", <?php echo $post_draft_rows_count ?>, "#4584ba"],
+                ["Published", <?php echo $post_published_rows_count ?>, "#6185a4"],
+                ["Comments", <?php echo $comment_rows_count ?>, "#5cb85c"],
+                ["Approved Comments", <?php echo $comment_approved_rows_count ?>, "#369537"],
+                ["Unapproved Comments", <?php echo $comment_unapproved_rows_count ?>, "#21b823"],
+                ["Pending Comments", <?php echo $comment_pending_rows_count ?>, "#19ff1c"],
+                ["Users", <?php echo $user_rows_count ?>, "#f0ad4e"],
+                ["Categories", <?php echo $category_rows_count ?>, "color: #d9534f"]
+            ]);
 
-        var view = new google.visualization.DataView(data);
-        view.setColumns([0, 1,
-            {
-                calc: "stringify",
-                sourceColumn: 1,
-                type: "string",
-                role: "annotation"
-            },
-            2
-        ]);
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                },
+                2
+            ]);
 
-        var options = {
-            height: 400,
-            bar: {
-                groupWidth: "95%"
-            },
-            legend: {
-                position: "none"
-            },
-        };
-        var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
-        chart.draw(view, options);
-    }
+            var options = {
+                height: 400,
+                bar: {
+                    groupWidth: "95%"
+                },
+                legend: {
+                    position: "none"
+                },
+            };
+            var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+            chart.draw(view, options);
+        }
     </script>
 
 

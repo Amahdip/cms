@@ -1,5 +1,4 @@
 <?php
-
 // confirm connection to DB
 
 function confirm($query)
@@ -197,6 +196,7 @@ function updatePostStatus($status, $id)
 
 
 
+
 // username duplicate check
 
 function is_usernameAvailable($username)
@@ -223,6 +223,21 @@ function is_emailAvailable($email)
     $looking_up_email_query = mysqli_query($connection, $query);
     $count = mysqli_fetch_column($looking_up_email_query);
     if ($count > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// user existance check
+
+function does_userExist($email, $username)
+{
+    global $connection;
+    $query = "SELECT * FROM users WHERE user_email = '{$email}'";
+    $looking_up_email_query = mysqli_query($connection, $query);
+    $row = mysqli_fetch_assoc($looking_up_email_query);
+    if ($row['username'] == $username) {
         return true;
     } else {
         return false;
